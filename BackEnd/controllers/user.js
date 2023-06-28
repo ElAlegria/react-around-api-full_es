@@ -30,7 +30,7 @@ const getUsersAll = (req, res) => {
     });
 };
 
-const getUserId = (req, res) => {
+const getUserId = (req, res,next) => {
   const { id } = req.params;
 
   userModel
@@ -40,23 +40,35 @@ const getUserId = (req, res) => {
     .catch((err) => errorMessagesUsers(err, res));
 };
 
-const createUser = (req, res, next) => {
+const getUsersMe = (req, res) => {
+  const { _id } = req.user;
+  userModel
+    .findById(_id)
+    .then((user) => res.send({ data: user }))
+    .catch(next)
+}
+const createUser = (req, res) => {
   const { name, about, avatar, email, password } = req.body;
 
   bcrypt
     .hash(password, 10)
     .then((hash) =>
-      userModel.create({
-        name,
-        about,
-        avatar,
-        email,
-        password: hash,
-      })
-      .then((user) => res.send({ data: user }))
+      userModel
+        .create({
+          name,
+          about,
+          avatar,
+          email,
+          password: hash,
+        })
+        .then((user) => {
+          res.send({ data: user });
+        })
     )
-    .catch(next);
-}
+    .catch(() =>
+      res.send({ message: "Lo lamentamos, este usuario ya existe" })
+    );
+};
 
 const updateUser = (req, res) => {
   const { name, about } = req.body;
@@ -92,12 +104,13 @@ const login = (req, res) => {
         res.send({ token });
       }
     })
-    .catch((err) => console.log("ya existe este usuario"));
+    .catch((err) => console.log("Error en password/email"));
 };
 
 module.exports = {
   getUsersAll,
   getUserId,
+  getUsersMe,
   createUser,
   updateUser,
   updateAvatar,
