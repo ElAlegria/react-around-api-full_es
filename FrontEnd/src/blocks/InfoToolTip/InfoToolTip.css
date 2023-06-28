@@ -1,0 +1,14 @@
+.infoTooltip {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 32px;
+  padding-top: 60px;
+  text-align: center;
+}
+@media screen and (max-width: 610px) {
+  .infoTooltip {
+    padding-top: 50px;
+    height: 308px;
+  }
+}

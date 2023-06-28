@@ -1,0 +1,22 @@
+@keyframes position-right {
+  0% {
+    transform: scale(1);
+  }
+  30% {
+    transform: scale(1.2);
+  }
+  55% {
+    transform: scale(0.5);
+  }
+  65% {
+    transform: translateX(60px), scale(0.5);
+    opacity: 0.7;
+  }
+  100% {
+    transform: translateX(-500%);
+    opacity: 0.4;
+  }
+}
+.animation__position-right {
+  animation: position-right 1.2s ease-in forwards;
+}

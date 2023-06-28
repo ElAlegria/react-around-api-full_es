@@ -1,0 +1,16 @@
+.profile__container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  max-width: 80%;
+}
+
+@media screen and (max-width: 550px) {
+  .profile__container {
+    flex-wrap: wrap;
+    flex-direction: row;
+    align-items: center;
+    max-width: 40%;
+
+  }
+}

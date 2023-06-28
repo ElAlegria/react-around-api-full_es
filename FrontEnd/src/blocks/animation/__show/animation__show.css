@@ -1,0 +1,30 @@
+@keyframes opacity {
+  0% {
+    opacity: 0%;
+  }
+  50% {
+    opacity: 70%;
+  }
+  100% {
+    opacity: 100%;
+  }
+}
+@keyframes opacityReverses {
+  0% {
+    opacity: 100%;
+  }
+  50% {
+    opacity: 70%;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+.animation__show {
+  animation: opacity 0.9s 1s linear forwards;
+}
+.animation__show-reverse {
+  animation: opacityReverses 0.9s linear forwards;
+  visibility: visible;
+  opacity: 1;
+}

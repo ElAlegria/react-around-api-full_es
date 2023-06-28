@@ -1,0 +1,13 @@
+@keyframes  joinLeft{
+    0%{
+        transform: translateX(-1200px);
+    }
+    100%{
+        transform: translateX(0);
+    }
+}
+.animation__join-left{
+    animation: joinLeft 1s   ease-in-out forwards;
+    z-index: 2;
+
+}

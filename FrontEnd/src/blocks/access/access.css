@@ -1,0 +1,13 @@
+.access{
+    width: 358px;
+    min-height: 365px;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin: auto;
+    box-shadow: 80px white;
+    padding: 7% 0;
+   
+}
