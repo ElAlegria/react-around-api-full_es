@@ -30,7 +30,7 @@ const getUsersAll = (req, res) => {
     });
 };
 
-const getUserId = (req, res,next) => {
+const getUserId = (req, res, next) => {
   const { id } = req.params;
 
   userModel
@@ -45,9 +45,10 @@ const getUsersMe = (req, res) => {
   userModel
     .findById(_id)
     .then((user) => res.send({ data: user }))
-    .catch(next)
-}
-const createUser = (req, res) => {
+    .catch(next);
+};
+
+const createUser = (req, res, next) => {
   const { name, about, avatar, email, password } = req.body;
 
   bcrypt
@@ -65,9 +66,8 @@ const createUser = (req, res) => {
           res.send({ data: user });
         })
     )
-    .catch(() =>
-      res.send({ message: "Lo lamentamos, este usuario ya existe" })
-    );
+    .catch(() => res.send({ message: "Lo lamentamos, este usuario ya existe" }))
+    .catch(next);
 };
 
 const updateUser = (req, res) => {
@@ -95,16 +95,14 @@ const login = (req, res) => {
   return userModel
     .findUserByCredentials(email, password)
     .then((user) => {
-      if (user) {
-        const token = jwt.sign(
-          { _id: user.id },
-          NODE_ENV === "production" ? JWT_SECRET : "dev-secret",
-          { expiresIn: "7d" }
-        );
-        res.send({ token });
-      }
+      const token = jwt.sign(
+        { _id: user.id },
+        "secretToken",
+        { expiresIn: "7d" }
+      );
+      res.send({ token });
     })
-    .catch((err) => console.log("Error en password/email"));
+    .catch(() => res.send({ message: "Error en password/email" }));
 };
 
 module.exports = {

@@ -1,7 +1,6 @@
 const jwt = require("jsonwebtoken");
-require("dotenv").config();
-
 const { NODE_ENV, JWT_SECRET } = process.env;
+
 const handleAuthError = (res) => {
   res.status(401).send({ message: "Error authorizacion" });
 };
@@ -11,23 +10,20 @@ const extractBearerToken = (header) => {
 };
 
 const tokenAuth = (req, res, next) => {
-  const { authorization } = req.header;
+  const { authorization } = req.headers;
 
-  console.log(authorization);
   if (!authorization || !authorization.startsWith("Bearer ")) {
     return handleAuthError(res);
   }
-
   const token = extractBearerToken(authorization);
   let payload;
 
+  console.log(token)
+
   try {
-    payload = jwt.verify(
-      token,
-      NODE_ENV === "production" ? JWT_SECRET : "dev-secret"
-    );
+    payload = jwt.verify(token, "secret Token");
   } catch (error) {
-    return handleAuthError(error);
+    return handleAuthError(res);
   }
 
   req.user = payload;
