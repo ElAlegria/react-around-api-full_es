@@ -18,10 +18,10 @@ const tokenAuth = (req, res, next) => {
   const token = extractBearerToken(authorization);
   let payload;
 
-  console.log(token)
 
   try {
-    payload = jwt.verify(token, "secret Token");
+    payload = jwt.verify(token, "secretToken");
+    
   } catch (error) {
     return handleAuthError(res);
   }
