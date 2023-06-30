@@ -42,7 +42,6 @@ const getUserId = (req, res) => {
 
 const getUserInfo = (req, res, next) => {
   const { _id } = req.user;
-  console.log(req.user)
   userModel
     .findById(_id)
     .then((user) => res.send({ data: user }))
