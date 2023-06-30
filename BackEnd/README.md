@@ -1,39 +1,81 @@
-# Around the U.S. Back End
+# Around the U.S. Back End 🗺️​
+  
+### Descripción general ⚙️
+  
+Este repositorio contiene un proyecto de backend desarrollado en Node.js utilizando el framework Express.js. El proyecto consta de dos rutas, cards y users, las cuales retornan información almacenada en archivos JSON. Además, se utiliza ESLint como herramienta de linting y nodemon para refrescar el servidor automáticamente durante el desarrollo.
 
-Este proyecto es un sitio web de lado de Back End, utilizando
-tegnologias especial node entre otros.
+### Dependencias 🔗
 
-## Tecnologias:
+El proyecto utiliza las siguientes dependencias:
 
-1. Node.js
+| Paquete | Version     |
+| :-------- | :------- | 
+| `mongoose` | `^7.0.4` | 
+| `express` | `^4.18.2` | 
+| `eslint` | `^8.38.0` | 
+| `eslint-config-airbnb-base` | `^15.0.0` |
+| `nodemon` | `^2.0.22` | 
+| `bcryptjs` | `^2.4.3` | 
+| `celebrate` | `^15.0.1` | 
+| `cors` | `^2.8.5` | 
+| `express-winston` | `^4.2.0` | 
+| `winston` | `^3.8.2` | 
+| `jsonwebtoken` | `^9.0.0` | 
+| `validator` | `^13.9.0` | 
 
-   - se implementa la solicitud "GET" para pedir Object JSON
-   - Modules
-   - sistema de archivos
-   - depuracion de aplicacion node js mediante la terminal
+Estas dependencias se encuentran listadas en el archivo package.json.
 
-2.Express 101
+### Caracteristicas del Proyecto 💻
 
-    -Enrutamientos
-    -MiddleWare
-    -comunicacion especial mediante .Router(), y promise
+- Solicitudes del servidor
+- Manejo de errores
+- Archivos de enrutamiento
+- Esquemas para los datos
+- Validaciones con Expresiones Regulares
 
-3. Objectos JSON
+### Funcionalidades ✅
 
-## Herramientas extra:
+- Obtener todos los usuarios
+- Obtener un usuario por su ID
+- Obtener todas las publicaciones
+- Publicar una foto
+- Actualizar el perfil y el avatar
+- Eliminar una publicación
+- Dar o quitar "like" a una publicación
 
--Post Man
+### Peticiones 📬
 
-## Directories
+`GET /users/id` — Retorna el usuario filtrado por un id
 
-`/data` — JSON files to temporarily emulate database integration.
+`GET /users/id` — Crea un nuevo usuario y lo retorna
 
-`/routes` — routing files.
+`PATCH /users/me` — Actualiza el perfil del usuario y lo retorna actualizado
 
-All other directories are optional and may be created by the developer if necessary.
+`PATCH /users/me/avatar` — Actualiza la foto de perfil del usuario y lo retorna actualizado
 
-## Running the Project
+`GET /cards` — Retorna todas las publicaciones
 
-`npm run start` — to launch the server.
+`POST /cards` — Crea una publicación y la retorna
 
-`npm run dev` — to launch the server with the hot reload feature.
+`DELETE /cards/cardId` — Elimina una publicación mediante un id
+
+`PUT /cards/cardId/likes` — Agrega un like a la publicación y retorna la publicación actualizada
+
+`DELETE /cards/cardId/likes` — Elimina un like de la publicación y retorna la publicación actualizada
+
+### Directorios 📖
+
+`/data` — JSON files to temporarily emulate database integration. Archivos JSON temporales para simular una base de datos
+  
+`/routes` — Archivo de rutas.  
+
+`/controllers` — Archivo de controladores de response y request. 
+
+`/models` — Esquemas de los documentos de mongoDB.  
+
+### Scripts 🔍
+  
+`npm run start` — para iniciar el servidor.  
+  
+`npm run dev` — para iniciar el servidor con hot reload habilitado.  
+

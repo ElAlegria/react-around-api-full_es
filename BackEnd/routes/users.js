@@ -1,16 +1,31 @@
-const routerUsers = require("express").Router();
+const router = require("express").Router();
+const validator = require("validator");
+const { celebrate, Joi } = require("celebrate");
+
 const {
-  getUsersAll,
-  getUserId,
-  updateUser,
+  getUsers,
+  getUserById,
+  updateProfile,
   updateAvatar,
-  getUserInfo
-} = require("../controllers/user");
+  getUserInfo,
+} = require("../controllers/users");
 
-routerUsers.get("/", getUsersAll);
-routerUsers.get("/me", getUserInfo)
-routerUsers.get("/:id", getUserId);
-routerUsers.patch("/me", updateUser);
-routerUsers.patch("/me/avatar", updateAvatar);
+router.get("/", getUsers);
+router.get('/id/:id', getUserById);
+router.get("/me", getUserInfo);
+router.patch("/me", updateProfile);
+router.patch("/me/avatar", celebrate({
+  body: Joi.object().keys({
+    avatar: Joi.string().custom((value, helpers) => {
+      if (!validator.isURL(value)) {
+        return helpers.error('string.uri');
+      }
+      return value;
+    })
+  })
+}), updateAvatar);
 
-module.exports = routerUsers;
+module.exports = router;
+
+
+

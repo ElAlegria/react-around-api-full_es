@@ -1,60 +1,69 @@
 const express = require("express");
 const mongoose = require("mongoose");
-const { PORT = 3000 } = process.env;
-const userCards = require("./routes/cards");
-const userUsers = require("./routes/users");
+const userRoute = require("./routes/users");
+const cardsRoute = require("./routes/cards");
+const cors = require("cors");
+const { celebrate, Joi, errors } = require("celebrate");
+const { login, createUser} = require("./controllers/users");
+const auth = require("./middlewares/auth");
+const { requestLogger, errorLogger } = require("./middlewares/logger");
+
 const app = express();
-const { login, createUser } = require("./controllers/user");
-const tokenAuth = require("./middlewares/auth");
 
-const errorHandle = ( req, res,err) => {
-  if (err.name === "CastError") {
-    return res.status(400).send({
-      message:
-        "Se pasaron datos inválidos a los métodos para crear un usuario/tarjeta o actualizar el avatar/perfil de un usuario.",
-    });
-  }
-  if (err.name === "DocumentNotFoundError") {
-    return res.status(404).send({
-      message:
-        "No existe un usuario con el id solicitado o la solicitud se envió a una dirección inexistente;",
-    });
-  }
-  if (err.code === 11000) {
-    return res.status(409).send({
-      message:
-        "Al registrarse, se especificó un correo electrónico que ya existe en el servidor",
-    });
-  }
-  console.log(err);
-  res.status(500).send({ message: "Se ha producido un error en el servidor" });
-};
-
-mongoose
-  .connect("mongodb://127.0.0.1:27017/aroundb")
-  .then(() => console.log("conexion exitosa mi apa"))
-  .catch((err) => console.log("error:", err));
-
-app.get("/crash-test", () => {
-  setTimeout(() => {
-    throw new Error("El servidor va a caer");
-  }, 0);
-});
-app.get("/", (req, res) => {
-  res.status(500).send({ message: "Recurso solicitado no encontrado" });
-});
+mongoose.connect("mongodb://127.0.0.1/aroundb");
 
 app.use(express.json());
+app.use(cors());
+app.options("*", cors());
 
-app.post("/signUp", createUser);
-app.post("/signIn", login);
+app.use(requestLogger);
 
-app.use(tokenAuth);
-app.use("/users", userUsers);
-app.use("/cards", userCards);
+app.get('/crash-test', () => {
+  setTimeout(() => {
+    throw new Error('El servidor va a caer');
+  }, 0);
+})
 
-app.use(errorHandle);
+app.post('/signin', celebrate({
+  body: Joi.object().keys({
+    email: Joi.string().required().email(),
+    password: Joi.string().required().min(8),
+  }),
+}), login);
 
-app.listen(PORT, () => {
-  console.log("Enlace a server");
+app.post('/signup', celebrate({
+  body: Joi.object().keys({
+    email: Joi.string().required().email(),
+    password: Joi.string().required().min(8),
+  }),
+}), createUser);
+
+app.use(auth);
+app.use("/users", userRoute);
+app.use("/cards", cardsRoute);
+
+app.use(errorLogger);
+
+app.use(errors());
+
+app.use('/', (req, res) => {
+  res.status(404).send({ message: 'Recurso solicitado no encontrado' });
 });
+app.use((err, req, res, next) => {
+  if (err.name === 'CastError') {
+    return res.status(400).send({ message: 'Se pasaron datos inválidos a los métodos para crear un usuario/tarjeta o actualizar el avatar/perfil de un usuario.' });
+  }
+  if (err.name === 'DocumentNotFoundError') {
+    return res.status(404).send({ message: 'No existe un usuario con el id solicitado o la solicitud se envió a una dirección inexistente;' });
+  }
+  if(err.code === 11000){
+    return res.status(409).send({ message: 'Al registrarse, se especificó un correo electrónico que ya existe en el servidor' });
+  }
+  console.log(err)
+   res.status(500).send({message: 'Se ha producido un error en el servidor'});
+ });
+
+app.listen(3000, () => {
+  console.log(`Escuchando por el puerto 3000`);
+});
+

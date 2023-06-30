@@ -44,23 +44,19 @@ const userSchema = new mongoose.Schema(
   { versionKey: false }
 );
 
-userSchema.statics.findUserByCredentials = function findUserByCredentials(
-  email,
-  password
-) {
-  return this.findOne({ email })
-    .select("+password")
+userSchema.statics.findUserByCredentials = function findUserByCredentials(email, password) {
+  return this.findOne({ email }).select('+password')
     .then((user) => {
       if (!user) {
-        return Promise.reject(new Error("Incorrect password or email"));
+        return Promise.reject(new Error('Correo o contraseña incorrecta'));
       }
       return bcrypt.compare(password, user.password)
-      .then((matched) => {
-        if (!matched) {
-          return Promise.reject(new Error("Incorrect password or email"));
-        }
-        return user;
-      });
+        .then((matched) => {
+          if (!matched) {
+            return Promise.reject(new Error('Correo o contraseña incorrecta'));
+          }
+          return user;
+        });
     });
 };
 
