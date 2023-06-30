@@ -30,7 +30,7 @@ const getUsersAll = (req, res) => {
     });
 };
 
-const getUserId = (req, res, next) => {
+const getUserId = (req, res) => {
   const { id } = req.params;
 
   userModel
@@ -40,8 +40,9 @@ const getUserId = (req, res, next) => {
     .catch((err) => errorMessagesUsers(err, res));
 };
 
-const getUsersMe = (req, res) => {
+const getUserInfo = (req, res, next) => {
   const { _id } = req.user;
+  console.log(req.user)
   userModel
     .findById(_id)
     .then((user) => res.send({ data: user }))
@@ -95,11 +96,9 @@ const login = (req, res) => {
   return userModel
     .findUserByCredentials(email, password)
     .then((user) => {
-      const token = jwt.sign(
-        { _id: user.id },
-        "secretToken",
-        { expiresIn: "7d" }
-      );
+      const token = jwt.sign({ _id: user.id }, "secretToken", {
+        expiresIn: "7d",
+      });
       res.send({ token });
     })
     .catch(() => res.send({ message: "Error en password/email" }));
@@ -108,7 +107,7 @@ const login = (req, res) => {
 module.exports = {
   getUsersAll,
   getUserId,
-  getUsersMe,
+  getUserInfo,
   createUser,
   updateUser,
   updateAvatar,

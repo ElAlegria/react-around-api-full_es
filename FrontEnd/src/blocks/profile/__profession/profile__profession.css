@@ -1,11 +1,10 @@
 .profile__profession {
-  max-width: 50%;
   font-size: 14px;
   font-weight: 1.2;
   font-weight: 400;
   text-align: center;
   white-space: nowrap;
-  text-overflow:ellipsis;
+  text-overflow: ellipsis;
   overflow: hidden;
   padding: 14px 0 36px;
 }

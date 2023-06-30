@@ -2,38 +2,39 @@ import React from "react";
 import PopupWithForm from "./PopupWithForm";
 
 
-function AddPlacePopup(props) {
+const AddPlacePopup = ({ isOpen, onClose, onAddPlace, handleExternalClick }) => {
 
     const [errors, setErrors] = React.useState({}); 
-    const [name, setName] = React.useState("");
+    const [title, setTitle] = React.useState("");
     const [link, setLink] = React.useState("");
 
-    function handleSubmit(e) {
+    const handleSubmit = (e) => {
         e.preventDefault();
-        props.onAddPlace(name, link);
+        onAddPlace({title, link});
+        onClose();
     }
 
      React.useEffect(() => {
-       setName('');
+       setTitle('');
        setLink('');
-     }, [props.isOpen]);
+     }, [isOpen]);
 
     return (
       <PopupWithForm
         name="add_card"
         title="Nuevo Lugar"
-        isOpen={props.isOpen}
-        onClose={props.onClose}
+        isOpen={isOpen}
+        onClose={onClose}
         onSubmit={handleSubmit}
         errors={errors}
         setErrors={setErrors}
-        handleExternalClick={props.handleExternalClick}>
+        handleExternalClick={handleExternalClick}>
         <>
           <label className="popup__field" htmlFor="popup-input-title">
             <input
               type="text"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
               name="title"
               placeholder="Titulo"
               id="popup-input-title"

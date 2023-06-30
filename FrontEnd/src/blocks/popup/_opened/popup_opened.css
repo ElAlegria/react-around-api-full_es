@@ -2,7 +2,3 @@
   visibility: visible;
   opacity: 1;
 }
-
-.popup_opened-mainPage {
-  transition: opacity  0.4s  ease, visibility 1s;
-}

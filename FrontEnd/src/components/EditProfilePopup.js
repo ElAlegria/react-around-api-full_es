@@ -2,31 +2,34 @@ import React from 'react';
 import PopupWithForm from './PopupWithForm';
 import {CurrentUserContext} from '../contexts/CurrentUserContext';
 
-function EditProfilePopup(props) {
+const EditProfilePopup = ({
+  isOpen,
+  onClose,
+  onUpdateUser,
+  handleExternalClick,
+}) => {
   const currentUser = React.useContext(CurrentUserContext);
 
-  const [errors, setErrors] = React.useState({}); 
   const [name, setName] = React.useState('');
   const [description, setDescription] = React.useState('');
+  const [errors, setErrors] = React.useState({});
 
   React.useEffect(() => {
     setName('');
     setDescription('');
   }, [currentUser]);
 
-  function handleSubmit(evt) {
+  const handleSubmit = (evt) => {
     evt.preventDefault();
-    props.onUpdateUser({
-      name,
-      about: description,
-    });
+    onUpdateUser({name, about: description});
+    onClose();
   }
 
-  function handleNameChange(evt) {
+  const handleNameChange = (evt) => {
     setName(evt.target.value);
   }
 
-  function handleDescriptionChange(evt) {
+  const handleDescriptionChange = (evt) => {
     setDescription(evt.target.value);
   }
 
@@ -34,12 +37,12 @@ function EditProfilePopup(props) {
     <PopupWithForm
       name="edit_profile"
       title="Editar Perfil"
-      isOpen={props.isOpen}
-      onClose={props.onClose}
+      isOpen={isOpen}
+      onClose={onClose}
       onSubmit={handleSubmit}
       errors={errors}
       setErrors={setErrors}
-      handleExternalClick={props.handleExternalClick}>
+      handleExternalClick={handleExternalClick}>
       <>
         <label className="popup__field" htmlFor="popup-input-name">
           <input
@@ -78,6 +81,6 @@ function EditProfilePopup(props) {
       </>
     </PopupWithForm>
   );
-}
+};
 
 export default EditProfilePopup;

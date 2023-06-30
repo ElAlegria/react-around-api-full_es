@@ -1,5 +1,4 @@
 .profile__information {
-  max-width: 80%;
   display: flex;
   flex-wrap: wrap;
   flex-direction: column;

@@ -1,29 +1,28 @@
 import React from "react";
 import PopupWithForm from './PopupWithForm';
 
-function EditAvatarPopup(props) {
+const EditAvatarPopup = ({ isOpen, onClose, onUpdateAvatar, handleExternalClick}) => {
     
     const imageRef = React.useRef();
     const [errors, setErrors] = React.useState({}); 
 
-    function handleSubmit(e) {
+    const handleSubmit = (e) => {
       e.preventDefault();
-      props.onUpdateAvatar({
-        avatar: imageRef.current.value,
-      });
+      onUpdateAvatar(imageRef.current.value,);
       e.target.reset();
+      onClose();
     }
 
     return (
       <PopupWithForm
         name="image_profile"
         title="Cambiar foto de Perfil"
-        isOpen={props.isOpen}
-        onClose={props.onClose}
+        isOpen={isOpen}
+        onClose={onClose}
         onSubmit={handleSubmit}
         errors={errors}
         setErrors={setErrors}
-        handleExternalClick={props.handleExternalClick}>
+        handleExternalClick={handleExternalClick}>
         <>
           <label className="popup__field" htmlFor="popup-input-image">
             <input

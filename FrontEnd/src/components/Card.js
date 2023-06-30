@@ -1,53 +1,53 @@
 import React from 'react';
 import {CurrentUserContext} from '../contexts/CurrentUserContext';
 
-function Card(props) {
+const Card = ({ card, onCardClick, onCardLike, onDeleteCard }) => {
   const currentUser = React.useContext(CurrentUserContext);
 
-  const isOwn = props.card.owner._id === currentUser._id;
+  const isOwn = card.owner === currentUser._id;
   const cardDeleteButtonClassName = `card__delete-button ${
     isOwn && 'card__delete-button_active'
   }`;
 
-  const isLiked = props.card.likes.some((i) => i._id === currentUser._id);
+  const isLiked = card.likes.some((id) => id === currentUser._id);
   const cardLikeButtonClassName = `card__like-button ${
     isLiked && 'card__like-button_on'
   }`;
 
-  function handleClick() {
-    props.onCardClick(props.card);
+  const handleClick = () => {
+    onCardClick(card);
   }
 
-  function handleLikeClick() {
-    props.onCardLike(props.card);
+  const handleLikeClick = () => {
+    onCardLike(card);
   }
 
-  function handleDeleteClick() {
-    props.onDeleteCard(props.card);
+  const handleDeleteClick = () => {
+    onDeleteCard(card);
   }
 
   return (
     <>
-      <li key={props.card._id} className="card">
+      <li key={card._id} className="card">
         <button
           type="button"
           className={cardDeleteButtonClassName}
           onClick={handleDeleteClick}></button>
         <img
-          src={props.card.link}
-          alt={props.card.name}
+          src={card.link}
+          alt={card.name}
           onClick={handleClick}
           className="card__image"
         />
         <div className="card__information">
-          <h2 className="card__title">{props.card.name}</h2>
+          <h2 className="card__title">{card.name}</h2>
           <div className="card__like-container">
             <button
               type="button"
               className={cardLikeButtonClassName}
               onClick={handleLikeClick}></button>
             <p className="card__like-counter">
-              {props.card.likes ? props.card.likes.length : 0}
+              {card.likes ? card.likes.length : 0}
             </p>
           </div>
         </div>

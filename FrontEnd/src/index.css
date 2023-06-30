@@ -96,11 +96,11 @@
 
 /* initiantes infoTooltip*/
 
-@import url(./blocks/InfoToolTip/InfoToolTip.css);
+@import url(./blocks/infoTooltip/infoTooltip.css);
 
 /* initiantes login*/
 
-@import url(./blocks/Login/Login.css);
+@import url(./blocks/login/login.css);
 
 /* initiantes register*/
 

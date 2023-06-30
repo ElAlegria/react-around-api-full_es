@@ -2,7 +2,7 @@ const jwt = require("jsonwebtoken");
 const { NODE_ENV, JWT_SECRET } = process.env;
 
 const handleAuthError = (res) => {
-  res.status(401).send({ message: "Error authorizacion" });
+  res.status(403).send({ message: "No tienes autorizacion, registrate" });
 };
 
 const extractBearerToken = (header) => {

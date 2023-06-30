@@ -1,12 +1,21 @@
 import React from 'react';
-import { useRef } from 'react';
+import {useRef} from 'react';
 
-function PopupWithForm(props) {
+const PopupWithForm = ({
+  children,
+  setErrors,
+  name,
+  title,
+  onSubmit,
+  isOpen,
+  onClose,
+  handleExternalClick,
+}) => {
   const formRef = useRef(null);
 
   const handleInput = (event) => {
     const input = event.target;
-    const errors = {...props.errors};
+    const errors = {...setErrors};
 
     if (!input.form) {
       return;
@@ -16,49 +25,46 @@ function PopupWithForm(props) {
     } else {
       errors[input.name] = '';
     }
-    props.setErrors(errors);
+    setErrors(errors);
   };
 
   const isInvalid = () => {
     if (!formRef.current) return false;
     const formInputs = formRef.current.elements;
-    return Array.from(formInputs).some(input => {
+    return Array.from(formInputs).some((input) => {
       return input.validity.valid === false;
-    })
-  }
+    });
+  };
 
   return (
     <section
-      className={`popup popup_${props.name} ${
-        props.isOpen ? 'popup_opened' : ''
-      }`} onClick={props.handleExternalClick}>
+      className={`popup popup_${name} ${isOpen ? 'popup_opened' : ''}`}
+      onClick={handleExternalClick}>
       <div className="popup__container">
         <button
           type="button"
           className="popup__close-button"
-          onClick={props.onClose}></button>
-        <h3 className="popup__title">{props.title}</h3>
+          onClick={onClose}></button>
+        <h3 className="popup__title">{title}</h3>
         <form
-          className={`popup_form popupform_type${props.name}`}
-          name={props.name}
-          onSubmit={props.onSubmit}
+          className={`popup_form popupform_type${name}`}
+          name={name}
+          onSubmit={onSubmit}
           onInput={handleInput}
           ref={formRef}
           noValidate>
-          {props.children}
+          {children}
           <button
             type="submit"
-            className={`popup__button popup__button_type_${props.name} 
-            ${
-              isInvalid() ? 'popup__button_disabled' : ''
-            }`}
+            className={`popup__button popup__button_type_${name} 
+            ${isInvalid() ? 'popup__button_disabled' : ''}`}
             disabled={isInvalid()}>
-            {props.name === 'delete_card' ? 'Si' : 'Guardar'}
+            {name === 'delete_card' ? 'Si' : 'Guardar'}
           </button>
         </form>
       </div>
     </section>
   );
-}
+};
 
 export default PopupWithForm;

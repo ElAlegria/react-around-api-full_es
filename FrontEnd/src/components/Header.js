@@ -4,7 +4,7 @@ import {Link, useMatch} from 'react-router-dom';
 import toggleMenu from '../images/toggle-menu.svg';
 import add from '../images/add-icon.svg';
 
-function Header({handleSignOut, email}) {
+const Header = ({handleSignOut, email}) => {
   const [open, setOpen] = React.useState(false);
 
   const handleMenu = () => {
