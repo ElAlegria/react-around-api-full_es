@@ -2,6 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const userRoute = require("./routes/users");
 const cardsRoute = require("./routes/cards");
+const {PORT=3000} = process.env
 const cors = require("cors");
 const { celebrate, Joi, errors } = require("celebrate");
 const { login, createUser} = require("./controllers/users");
@@ -63,7 +64,7 @@ app.use((err, req, res, next) => {
    res.status(500).send({message: 'Se ha producido un error en el servidor'});
  });
 
-app.listen(3000, () => {
+app.listen(PORT, () => {
   console.log(`Escuchando por el puerto 3000`);
 });
 
