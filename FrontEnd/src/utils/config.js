@@ -1,1 +1,1 @@
-export const API_BASE_URL = 'https://register.nomoreparties.co';
+export const API_BASE_URL = 'https://api.alegria.desarrollointerno.com';
