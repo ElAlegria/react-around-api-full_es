@@ -1,7 +1,7 @@
 import { API_BASE_URL } from "./config";
 
 class Api {
-  constructor({baseUrl, headers}) {
+  constructor({ baseUrl, headers }) {
     this._baseUrl = baseUrl;
     this._headers = headers;
   }
@@ -43,10 +43,10 @@ class Api {
   }
 
   async editProfile(body, token) {
-    const {name, about} = body;
+    const { name, about } = body;
     try {
       const response = await fetch(`${this._baseUrl}/users/me`, {
-        method: 'PATCH',
+        method: "PATCH",
         headers: {
           ...this._headers,
           authorization: `Bearer ${token}`,
@@ -69,7 +69,7 @@ class Api {
   async editAvatar(link, token) {
     try {
       const response = await fetch(`${this._baseUrl}/users/me/avatar`, {
-        method: 'PATCH',
+        method: "PATCH",
         headers: {
           ...this._headers,
           authorization: `Bearer ${token}`,
@@ -89,12 +89,11 @@ class Api {
   }
 
   async changeLikeCardStatus(cardId, isLiked, token) {
-
     try {
       let response;
       if (isLiked) {
         response = await fetch(`${this._baseUrl}/cards/likes/${cardId}`, {
-          method: 'DELETE',
+          method: "DELETE",
           headers: {
             ...this._headers,
             authorization: `Bearer ${token}`,
@@ -102,14 +101,14 @@ class Api {
         });
       } else {
         response = await fetch(`${this._baseUrl}/cards/likes/${cardId}`, {
-          method: 'PUT',
+          method: "PUT",
           headers: {
             ...this._headers,
             authorization: `Bearer ${token}`,
           },
         });
       }
-      
+
       if (response.ok) {
         return response.json();
       } else {
@@ -124,7 +123,7 @@ class Api {
     const { title, link } = body;
     try {
       const response = await fetch(`${this._baseUrl}/cards`, {
-        method: 'POST',
+        method: "POST",
         headers: {
           ...this._headers,
           authorization: `Bearer ${token}`,
@@ -147,7 +146,7 @@ class Api {
   async deleteCard(cardId, onDeleteCard, token) {
     try {
       const response = await fetch(`${this._baseUrl}/cards/${cardId}`, {
-        method: 'DELETE',
+        method: "DELETE",
         headers: {
           ...this._headers,
           authorization: `Bearer ${token}`,
@@ -167,7 +166,7 @@ class Api {
 const api = new Api({
   baseUrl: API_BASE_URL,
   headers: {
-    'Content-Type': 'application/json',
+    "Content-Type": "application/json",
   },
 });
 
