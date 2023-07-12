@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
-    "lint": "npx eslint",
+    "lint": "eslint",
     "start": "nodemon app.js",
     "node": "node app.js"
   },
