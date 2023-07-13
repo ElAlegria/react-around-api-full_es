@@ -1,5 +1,4 @@
-const Card = require("../models/card");
-
+const Card = require('../models/card');
 
 const getCards = (req, res, next) => {
   Card.find({})
@@ -9,7 +8,7 @@ const getCards = (req, res, next) => {
 
 const postCard = (req, res, next) => {
   const { name, link } = req.body;
-  
+
   Card.create({ name, link, owner: req.user._id })
     .then((card) => res.send({ data: card }))
     .catch(next);
@@ -23,13 +22,13 @@ const deleteCard = (req, res, next) => {
     .orFail()
     .then((card) => {
       if (card.owner.toString() !== _id) {
-        return res.status(403).send({ message: 'No tienes permisos para borrar esta tarjeta' })
+        return res.status(403).send({ message: 'No tienes permisos para borrar esta tarjeta' });
       }
       card.deleteOne();
       return res.send({ data: card });
     })
     .catch(next);
-}
+};
 
 const putLike = (req, res, next) => {
   const { cardId } = req.params;
@@ -57,4 +56,4 @@ module.exports = {
   deleteCard,
   putLike,
   deleteLike,
-}
+};

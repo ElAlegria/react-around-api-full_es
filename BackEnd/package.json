@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
-    "lint": "eslint",
+    "lint": "eslint --fix --ext .js,.jsx .",
     "start": "nodemon app.js",
     "node": "node app.js"
   },

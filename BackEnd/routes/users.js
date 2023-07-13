@@ -1,31 +1,28 @@
-const router = require("express").Router();
-const validator = require("validator");
-const { celebrate, Joi } = require("celebrate");
+const { celebrate, Joi } = require('celebrate');
+const validator = require('validator');
+const router = require('express').Router();
 
 const {
-  getUsers,
   getUserById,
+  getUsers,
   updateProfile,
   updateAvatar,
   getUserInfo,
-} = require("../controllers/users");
+} = require('../controllers/users');
 
-router.get("/", getUsers);
+router.get('/', getUsers);
 router.get('/id/:id', getUserById);
-router.get("/me", getUserInfo);
-router.patch("/me", updateProfile);
-router.patch("/me/avatar", celebrate({
+router.get('/me', getUserInfo);
+router.patch('/me', updateProfile);
+router.patch('/me/avatar', celebrate({
   body: Joi.object().keys({
     avatar: Joi.string().custom((value, helpers) => {
       if (!validator.isURL(value)) {
         return helpers.error('string.uri');
       }
       return value;
-    })
-  })
+    }),
+  }),
 }), updateAvatar);
 
 module.exports = router;
-
-
-

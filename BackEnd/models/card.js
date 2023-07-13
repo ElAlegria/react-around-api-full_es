@@ -13,8 +13,7 @@ const cardsSchema = new mongoose.Schema(
       required: true,
       validate: {
         validator(value) {
-          const urlRegex =
-            /^(http|https):\/\/(www\.)?[\w.~:/?%#[\]@!$&'()*+,;=-]+[#]?$/;
+          const urlRegex = /^(http|https):\/\/(www\.)?[\w.~:/?%#[\]@!$&'()*+,;=-]+[#]?$/;
           return urlRegex.test(value);
         },
         message: (props) => `${props.value} no es una URL válida`,
@@ -22,11 +21,11 @@ const cardsSchema = new mongoose.Schema(
     },
     owner: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "user",
+      ref: 'user',
       required: true,
     },
     likes: {
-      type: [{ type: mongoose.Schema.Types.ObjectId, ref: "user" }],
+      type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'user' }],
       default: [],
     },
     createdAt: {
@@ -34,7 +33,7 @@ const cardsSchema = new mongoose.Schema(
       default: () => Date.now(),
     },
   },
-  { versionKey: false }
+  { versionKey: false },
 );
 
 module.exports = mongoose.model('card', cardsSchema);

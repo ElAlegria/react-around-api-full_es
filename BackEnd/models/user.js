@@ -1,6 +1,6 @@
-const mongoose = require("mongoose");
-const isEmail = require("validator/lib/isEmail");
-const bcrypt = require("bcrypt");
+const mongoose = require('mongoose');
+const isEmail = require('validator/lib/isEmail');
+const bcrypt = require('bcrypt');
 
 const userSchema = new mongoose.Schema(
   {
@@ -8,21 +8,21 @@ const userSchema = new mongoose.Schema(
       type: String,
       minlength: 2,
       maxlength: 30,
-      default: "Jacques Cousteau",
+      default: 'Jacques Cousteau',
     },
     about: {
       type: String,
       minlength: 2,
       maxlength: 30,
-      default: "Explorador",
+      default: 'Explorador',
     },
     avatar: {
       type: String,
       default:
-        "https://practicum-content.s3.us-west-1.amazonaws.com/resources/moved_avatar_1604080799.jpg",
+        'https://practicum-content.s3.us-west-1.amazonaws.com/resources/moved_avatar_1604080799.jpg',
       validate: {
-        validator: function () {
-          return /https?:\/\/(www)?[\w._~:\/?%#[\]@!$&'()*+,;=-]+\/?/;
+        validator() {
+          return /https?:\/\/(www)?[\w._~:?%#[\]@!$&'()*+,;=-]+\/?/;
         },
       },
     },
@@ -32,7 +32,7 @@ const userSchema = new mongoose.Schema(
       unique: true,
       validate: {
         validator: (v) => isEmail(v),
-        message: "Formato de correo electronico invalido",
+        message: 'Formato de correo electronico invalido',
       },
     },
     password: {
@@ -41,7 +41,7 @@ const userSchema = new mongoose.Schema(
       select: false,
     },
   },
-  { versionKey: false }
+  { versionKey: false },
 );
 
 userSchema.statics.findUserByCredentials = function findUserByCredentials(email, password) {
@@ -60,4 +60,4 @@ userSchema.statics.findUserByCredentials = function findUserByCredentials(email,
     });
 };
 
-module.exports = mongoose.model("user", userSchema);
+module.exports = mongoose.model('user', userSchema);
